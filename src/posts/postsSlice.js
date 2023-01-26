@@ -40,6 +40,18 @@ export const postsSlice = apiSlice.injectEndpoints({
         ...result.ids.map((id) => ({ type: "Post", id })),
       ],
     }),
+    updatePost: builder.mutation({
+      query: ({ initialPost }) => ({
+        url: `/posts/${initialPost.id}`,
+        method: "PUT",
+        body: { ...initialPost, date: new Date().toISOString() }
+      }),
+      invalidatesTags: (result, error, arg) => [
+        { type: "Post", id: arg.id }
+      ]
+
+    }),
+
     addReactions: builder.mutation({
       query: ({ postId, name }) => ({
         url: `/posts/${postId}`,
