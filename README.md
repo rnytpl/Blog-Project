@@ -1,4 +1,4 @@
-npm i to download all the necessary packages+
+npm i to download all the necessary packages
 
 Create your own .env.local file and include "REACT_APP_BASE_URL" and set it equal to your own local host "http:/localhost:3500"
 
