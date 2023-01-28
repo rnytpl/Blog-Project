@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Container,
+  Box,
   Card,
   CardContent,
   Typography,
@@ -8,6 +9,8 @@ import {
   Button,
 } from "@mui/material";
 import ReactionButtons from "posts/ReactionButtons";
+import TimeAgo from "./TimeAgo";
+import PostAuthor from "./PostAuthor";
 import { Link, useParams } from "react-router-dom";
 import { useGetPostsQuery } from "./postsSlice";
 
@@ -29,15 +32,22 @@ const SinglePostPage = () => {
   return (
     <Card sx={{ mb: "1rem" }}>
       <CardContent>
-        <Typography variant="h4" sx={{ fontSize: "25px" }}>
+        <Typography variant="h4" sx={{ fontSize: "25px", mb: "1rem" }}>
           {post.title}
         </Typography>
-        <Typography>{post.body}</Typography>
-        <ReactionButtons post={post} />
+        <Typography sx={{ mb: "0.5rem" }}>{post.body}</Typography>
+        <Box>
+          <TimeAgo timestamp={post.date} />
+          &nbsp;by&nbsp;
+          <PostAuthor userId={post.userId} />
+        </Box>
+        <Box sx={{ mt: "0.5rem" }}>
+          <ReactionButtons post={post} />
+        </Box>
       </CardContent>
       <CardActions>
         <Button component={Link} to={`/posts/edit/${post.id}`} size="small">
-          Edit Post
+          View Post
         </Button>
       </CardActions>
     </Card>

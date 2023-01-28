@@ -12,7 +12,7 @@ const PostsList = () => {
 
   let content;
   if (isLoading) {
-    return (content = <p>Loading...</p>);
+    content = <p>Loading...</p>;
   } else if (isSuccess) {
     content = posts.ids.map((postId) => (
       <PostsExcerpt key={postId} postId={postId} />

@@ -11,7 +11,12 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import { Link } from "react-router-dom";
 
-const pages = ["Home", "Add New Post", "User"];
+// "Home", "Add New Post", "User"
+const pages = [
+  { pageName: "Home", path: "/" },
+  { pageName: "Add New Post", path: "/posts" },
+  { pageName: "User", path: "/users" },
+];
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -25,7 +30,7 @@ const Header = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" color="primary">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -39,8 +44,8 @@ const Header = () => {
               display: { xs: "none", md: "flex" },
               fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: ".3rem",
               color: "inherit",
+              letterSpacing: ".3rem",
               textDecoration: "none",
             }}
           >
@@ -78,9 +83,11 @@ const Header = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+              {pages.map(({ pageName, path }) => (
+                <MenuItem key={pageName} onClick={handleCloseNavMenu}>
+                  <Button component={Link} to={`${path}`} textAlign="center">
+                    {pageName}
+                  </Button>
                 </MenuItem>
               ))}
             </Menu>
@@ -112,17 +119,19 @@ const Header = () => {
               justifyContent: "flex-end",
             }}
           >
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-                component={Link}
-                to="/"
-              >
-                {page}
-              </Button>
-            ))}
+            {pages.map(({ pageName, path }) => {
+              return (
+                <Button
+                  key={pageName}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                  component={Link}
+                  to={`${path}`}
+                >
+                  {pageName}
+                </Button>
+              );
+            })}
           </Box>
         </Toolbar>
       </Container>

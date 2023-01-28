@@ -6,7 +6,7 @@ const Layout = () => {
   return (
     <>
       <Header />
-      <Container maxWidth="sm" sx={{ mt: "1.5rem" }}>
+      <Container maxWidth="md" sx={{ mt: "1.5rem" }}>
         <Outlet />
       </Container>
     </>

@@ -40,18 +40,54 @@ export const postsSlice = apiSlice.injectEndpoints({
         ...result.ids.map((id) => ({ type: "Post", id })),
       ],
     }),
+    getPostsByUser: builder.query({
+      query: (userId) => `/posts/?userId=${userId}`,
+      transformResponse: (responseData) => {
+        const loadedPosts = responseData.map((post) => {
+          if (!post.data) post.date = new Date().toISOString();
+          if (!post.reactions)
+            post.reactions = {
+              thumbsUp: 0,
+              wow: 0,
+              heart: 0,
+              rocket: 0,
+              coffee: 0,
+            };
+          return post;
+        });
+        return postsAdapter.setAll(initialState, loadedPosts);
+      },
+      providesTags: (result, error, arg) => [
+        ...result.ids.map((id) => ({ type: "Post", id })),
+      ],
+    }),
+    addNewPost: builder.mutation({
+      query: (initialPost) => ({
+        url: `/posts`,
+        method: "POST",
+        body: {
+          ...initialPost,
+          userId: Number(initialPost.userId),
+          date: new Date().toISOString(),
+          reactions: {
+            thumbsUp: 0,
+            wow: 0,
+            heart: 0,
+            rocket: 0,
+            coffee: 0,
+          },
+        },
+      }),
+      invalidatesTags: [{ type: "Post", id: "LISt" }],
+    }),
     updatePost: builder.mutation({
-      query: ({ initialPost }) => ({
+      query: (initialPost) => ({
         url: `/posts/${initialPost.id}`,
         method: "PUT",
-        body: { ...initialPost, date: new Date().toISOString() }
+        body: { ...initialPost, date: new Date().toISOString() },
       }),
-      invalidatesTags: (result, error, arg) => [
-        { type: "Post", id: arg.id }
-      ]
-
+      invalidatesTags: (result, error, arg) => [{ type: "Post", id: arg.id }],
     }),
-
     addReactions: builder.mutation({
       query: ({ postId, name }) => ({
         url: `/posts/${postId}`,
@@ -75,4 +111,10 @@ export const postsSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetPostsQuery, useAddReactionsMutation } = postsSlice;
+export const {
+  useGetPostsQuery,
+  useGetPostsByUserQuery,
+  useAddNewPostMutation,
+  useAddReactionsMutation,
+  useUpdatePostMutation,
+} = postsSlice;
