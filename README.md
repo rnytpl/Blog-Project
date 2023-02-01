@@ -10,4 +10,6 @@ then npm start the project
 
 This whole blog project is inspired from Dave Gray's Youtube Redux, RTK Query tutorial.
 
-I just took the initiative of designing it with MaterialUI and making a couple of changes
+I just took the initiative of designing it with MaterialUI and making a couple of changes a long the way.
+
+Detailed description will be added soon.
